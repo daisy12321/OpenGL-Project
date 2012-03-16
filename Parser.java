@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Parser {
-  public static float[][][] coords;
+  public static float[][] coords;
   
   /**
    Constructor.
@@ -18,7 +18,7 @@ public class Parser {
   }
   
   public Parser() throws FileNotFoundException {
-	fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled.obj");  
+	fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled3.obj");  
 	process();
 	log("Done.");
   }
@@ -41,12 +41,11 @@ public class Parser {
     //use a second Scanner to parse the content of each line 
     scanner.useDelimiter(" ");
     int j = 0;
-    coords = new float[3][4][400];
+    coords = new float[3][400];
     while ( scanner.hasNext() ){
       //int face = j/12;
-      coords[j % 3][(j % 12)/3][j / 12] = Float.valueOf(scanner.next());
-      log(j);
-      log("Now on the " + (j/12) + "th face with " + coords[j % 3][(j % 12)/3][j/12]);
+      coords[j % 3][j/3] = Float.valueOf(scanner.next());
+      //log("Now on the " + (j/3) + "th vertex with " + coords[j % 3][j/3]);
       j++;
     }
     //no need to call scanner.close(), since the source is a String

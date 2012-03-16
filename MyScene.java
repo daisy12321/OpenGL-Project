@@ -325,28 +325,19 @@ public class MyScene implements GLEventListener{
 
 	        gl.glRotated(zAngle, 0, 0, 1);
 	        
-
-	        for (int number = 0; number < Parser.coords.length/12; number++) {
+	        
+	        for (int number = 0; number < Parser.coords[1].length-2; number++) {
 		        gl.glPushMatrix();
 		        gl.glBegin(GL.GL_TRIANGLES);
 		        gl.glColor3f(1f, 0.4f, 0.2f);
 		        //gl.glNormal3f(0, 0, 1);
-	        	gl.glVertex3f(Parser.coords[0][0][number], Parser.coords[1][0][number], Parser.coords[2][0][number]); 
-        		gl.glVertex3f(Parser.coords[0][1][number], Parser.coords[1][1][number], Parser.coords[2][1][number]); 
-        		gl.glVertex3f(Parser.coords[0][2][number], Parser.coords[1][2][number], Parser.coords[2][2][number]); 
+	        	gl.glVertex3f(Parser.coords[0][number], Parser.coords[1][number], Parser.coords[2][number]); 
+        		gl.glVertex3f(Parser.coords[0][number+1], Parser.coords[1][number+1], Parser.coords[2][number+1]); 
+        		gl.glVertex3f(Parser.coords[0][number+2], Parser.coords[1][number+2], Parser.coords[2][number+2]); 
     			gl.glEnd();
     	        gl.glPopMatrix();
-		        
-    	        gl.glPushMatrix();
-    			gl.glBegin(GL.GL_TRIANGLES);
-		        gl.glColor3f(1f, 0.2f, 0.5f);
-		        //gl.glNormal3f(0, 0, 1);
-	        	gl.glVertex3f(Parser.coords[0][0][number], Parser.coords[1][0][number], Parser.coords[2][0][number]); 
-        		gl.glVertex3f(Parser.coords[0][2][number], Parser.coords[1][2][number], Parser.coords[2][2][number]); 
-        		gl.glVertex3f(Parser.coords[0][3][number], Parser.coords[1][3][number], Parser.coords[2][3][number]); 
-        		gl.glEnd();
-    	        gl.glPopMatrix();
-		        
+    	        //System.out.println(Parser.coords[0][number]);
+		        		        
 	        }
 
             // draw a triangle in z=0 plane

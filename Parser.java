@@ -34,54 +34,31 @@ public class Parser {
   }
   
   public Parser() throws FileNotFoundException {
-//	fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");  
-//
-//    vertices = new Vertex3[1000];
-//    faces = new Face3[1000];
-//	processLineByLine();
-//	log("Done.");
 	 new Parser("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");
 	 fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");
   }
   
   public final void processLineByLine() throws FileNotFoundException {
-	    //Note that FileReader is used, not File, since File is not Closeable
 	    Scanner scanner = new Scanner(new FileReader(fFile));
 	    try {
-	      //first use a Scanner to get each line
 	      while ( scanner.hasNextLine() ){
 	        processLine( scanner.nextLine() );
 	      }
 	    }
 	    finally {
-	      //ensure the underlying stream is always closed
-	      //this only has any effect if the item passed to the Scanner
-	      //constructor implements Closeable (which it does in this case).
 	      scanner.close();
 	    }
 	  }
   
   /** 
-   Overridable method for processing lines in different ways.
-    
-   <P>This simple default implementation expects simple name-value pairs, separated by an 
-   '=' sign. Examples of valid input : 
-   <tt>height = 167cm</tt>
-   <tt>mass =  65kg</tt>
-   <tt>disposition =  "grumpy"</tt>
-   <tt>this is the name = this is the value</tt>
- * @throws FileNotFoundException 
+  * Process line by line
+  * @throws FileNotFoundException 
   */
   protected void processLine(String aLine){
-    //use a second Scanner to parse the content of each line 
     Scanner scanner = new Scanner(aLine);
-    //use a second Scanner to parse the content of each line 
     scanner.useDelimiter("\\s|//");
-    //coords = new float[3][400];
     while ( scanner.hasNext() ){
       String tmp = scanner.next();
-      //System.out.println(tmp);
-      //int face = j/12;
       if (tmp.contains("v") & !tmp.contains("n")) {mode = Mode.VERTICES;}
       else if (tmp.contains("vn")) {mode = Mode.NORMALS;}
       else if (tmp.contains("f")) {mode = Mode.FACES;}
@@ -111,10 +88,8 @@ public class Parser {
     	  num_n++;
       }
     }
-    //no need to call scanner.close(), since the source is a String
   }
   
-  // PRIVATE 
   private final File fFile;
   
   private static void log(Object aObject){

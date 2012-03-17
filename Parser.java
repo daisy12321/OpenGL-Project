@@ -9,9 +9,12 @@ public class Parser {
   private enum Mode {
 	    VERTICES, FACES, NORMALS 
 	}
+  private final static int MAX_V = 1000;
+  private final static int MAX_F = 1000;
 
   private int num_v = 1; //counting start at 1!
   private int num_f = 1; //counting start at 1!
+  
   /**
    Constructor.
    @param aFileName full name of an existing, readable file.
@@ -19,15 +22,22 @@ public class Parser {
   */
   public Parser(String string) throws FileNotFoundException{
 	fFile = new File(string);  
+    vertices = new Vertex3[MAX_V];
+    faces = new Face3[MAX_F];
 	processLineByLine();
 	log("Done.");
 
   }
   
   public Parser() throws FileNotFoundException {
-	fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");  
-	processLineByLine();
-	log("Done.");
+//	fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");  
+//
+//    vertices = new Vertex3[1000];
+//    faces = new Face3[1000];
+//	processLineByLine();
+//	log("Done.");
+	 new Parser("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");
+	 fFile = new File("C:\\Users\\Daisy\\Documents\\Middlebury\\CSCI461\\untitled2.obj");
   }
   
   public final void processLineByLine() throws FileNotFoundException {
@@ -63,21 +73,20 @@ public class Parser {
     Scanner scanner = new Scanner(aLine);
     //use a second Scanner to parse the content of each line 
     scanner.useDelimiter(" ");
-    vertices = new Vertex3[100];
-    faces = new Face3[100];
     //coords = new float[3][400];
     while ( scanner.hasNext() ){
       String tmp = scanner.next();
       //System.out.println(tmp);
       //int face = j/12;
-      if (tmp.contains("v")) {mode = Mode.VERTICES;}
+      if (tmp.contains("v") & !tmp.contains("n")) {mode = Mode.VERTICES;}
+      else if (tmp.contains("vn")) {mode = Mode.NORMALS;}
       else if (tmp.contains("f")) {mode = Mode.FACES;}
       else if (mode == Mode.VERTICES){
     	  float x = Float.parseFloat(tmp);
     	  float y = Float.parseFloat(scanner.next());
     	  float z = Float.parseFloat(scanner.next());
     	  vertices[num_v] = new Vertex3(x, y, z);
-    	  log("For the "+ num_v+"th vertex, "+vertices[num_v].x+" "+vertices[num_v].y+" "+vertices[num_v].z);
+    	  //log("For the "+ num_v+"th vertex, "+vertices[num_v].x+" "+vertices[num_v].y+" "+vertices[num_v].z);
     	  num_v++;
     	  //System.out.println(num_v);
       } else if (mode == Mode.FACES) {
@@ -85,7 +94,7 @@ public class Parser {
     	  int b = Integer.parseInt(scanner.next());
     	  int c = Integer.parseInt(scanner.next());
     	  faces[num_f] = new Face3(a, b, c);
-    	  log("For the "+ num_f+"th face, "+faces[num_f].a+" "+faces[num_f].b+" "+faces[num_f].c);
+    	  //log("For the "+ num_f+"th face, "+faces[num_f].a+" "+faces[num_f].b+" "+faces[num_f].c);
      	  num_f++;
      	  //System.out.println(num_f);
       } else {System.out.println("Comments");}

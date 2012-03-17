@@ -34,8 +34,6 @@ public class MyScene implements GLEventListener{
 	    private boolean useSmoothShading = false;
 	    private boolean useCulling = false;
 	    private boolean shiftKeyDown = false;
-	    private static Parser parser;
-	        
 	    private int mouseDownx, mouseDowny;
 	    private double mouseDownDist, mouseDownPhi, mouseDownTheta;
 
@@ -44,7 +42,7 @@ public class MyScene implements GLEventListener{
 	    TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 12));
 
 	    public static void main(String[] args) throws FileNotFoundException{
-	        parser = new Parser();
+	        new Parser();
 	        System.out.print("Starting...");
 	        new MyScene();
 	    }
@@ -325,22 +323,19 @@ public class MyScene implements GLEventListener{
 
 	        gl.glRotated(zAngle, 0, 0, 1);
 	        
-	        
-	        for (int number = 0; number < Parser.coords[1].length-2; number++) {
-		        gl.glPushMatrix();
-		        gl.glBegin(GL.GL_TRIANGLES);
-		        gl.glColor3f(1f, 0.4f, 0.2f);
-		        //gl.glNormal3f(0, 0, 1);
-	        	gl.glVertex3f(Parser.coords[0][number], Parser.coords[1][number], Parser.coords[2][number]); 
-        		gl.glVertex3f(Parser.coords[0][number+1], Parser.coords[1][number+1], Parser.coords[2][number+1]); 
-        		gl.glVertex3f(Parser.coords[0][number+2], Parser.coords[1][number+2], Parser.coords[2][number+2]); 
-    			gl.glEnd();
-    	        gl.glPopMatrix();
-    	        //System.out.println(Parser.coords[0][number]);
-		        		        
+	        for (int i = 1; i < Parser.faces.length; i++){
+	        	gl.glPushMatrix();
+	        	gl.glBegin(GL.GL_TRIANGLES);
+	        	gl.glColor3f(1f, 0.4f, 0.2f);
+	        	//gl.glNormal3f(0, 0, 1);
+	        	//System.out.println(i+" "+Parser.faces[1]);
+	        	gl.glVertex3f(Parser.vertices[Parser.faces[i].a].x,Parser.vertices[Parser.faces[i].a].y, Parser.vertices[Parser.faces[i].a].z ); 
+	        	gl.glVertex3f(Parser.vertices[Parser.faces[i].b].x,Parser.vertices[Parser.faces[i].b].y, Parser.vertices[Parser.faces[i].b].z ); 
+	        	gl.glVertex3f(Parser.vertices[Parser.faces[i].c].x,Parser.vertices[Parser.faces[i].c].y, Parser.vertices[Parser.faces[i].c].z ); 
+	        	gl.glEnd();
+	        	gl.glPopMatrix();
+	        	if (Parser.faces[i+1] == null) break;
 	        }
-
-            // draw a triangle in z=0 plane
 	    }
 
 	    public void renderText(GLAutoDrawable drawable) {
